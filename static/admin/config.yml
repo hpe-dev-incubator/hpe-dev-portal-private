@@ -2,7 +2,7 @@ backend:
  name: github
  repo: hpe-dev-incubator/hpe-dev-portal-private
  branch: master
- open_authoring: true
+ open_authoring: false
 
 publish_mode: editorial_workflow
 site_url: https://community.greenlake.hpe.com
