@@ -1,3 +1,4 @@
+
 /* eslint-disable max-len */
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
@@ -19,10 +20,8 @@ import { validateHpeEmail } from '../../pages/community';
 
 const { GATSBY_WORKSHOPCHALLENGE_API_ENDPOINT } = process.env;
 const { GATSBY_COCKPIT_HPE_OAUTH } = process.env;
-
 // const { GATSBY_CLIENT_ID } = process.env;
 // const { GATSBY_CLIENT_OAUTH } = process.env;
-
 const TextAlignLeft = styled(Box)`
   & > a {
     text-align: left;
@@ -30,41 +29,34 @@ const TextAlignLeft = styled(Box)`
     padding-right: 30px;
   }
 `;
-
 function Header() {
   const { data, user: userDetail } = useContext(AppContext);
-
   const platforms = data?.platform?.edges;
   const opensource = data?.opensource?.edges;
   const greenlake = data?.greenlake?.edges;
-
   const GreenLakeButtonLinks = ({ column }) => {
-    /* const leftColumn = greenlake.filter((gl, index) => index % 2 === 0); */
-    const leftColumn = greenlake;
+    const leftColumn = greenlake.filter((gl, index) => index % 2 === 0);
     const rightColumn = greenlake.filter((gl, index) => index % 2);
-    // const externalLinks = [
-    //   {
-    //     title: 'HPE GreenLake API Portal',
-    //     slug: 'https://developer.greenlake.hpe.com/',
-    //   },
-    //   {
-    //     title: 'HPE GreenLake Test Drive',
-    //     slug: 'https://testdrive.greenlake.hpe.com/',
-    //   },
-    // ];
-
-    // const externalLeftColumn = externalLinks.filter(
-    //   (el, index) => index % 2 === 0,
-    // );
-    // const externalRightColumn = externalLinks.filter((el, index) => index % 2);
-    // const externalLinksColumn =
-    //   column === 'left' ? externalLeftColumn : externalRightColumn;
+    const externalLinks = [
+      {
+        title: 'HPE GreenLake API Portal',
+        slug: 'https://developer.greenlake.hpe.com/',
+      },
+      {
+        title: 'HPE GreenLake Test Drive',
+        slug: 'https://testdrive.greenlake.hpe.com/',
+      },
+    ];
+    const externalLeftColumn = externalLinks.filter(
+      (el, index) => index % 2 === 0,
+    );
+    const externalRightColumn = externalLinks.filter((el, index) => index % 2);
+    const externalLinksColumn =
+      column === 'left' ? externalLeftColumn : externalRightColumn;
     const greenlakeColumn = column === 'left' ? leftColumn : rightColumn;
-
     const glColumns = greenlakeColumn.map((gl, index) => {
       const { slug } = gl.node.fields;
       const { title } = gl.node.frontmatter;
-
       return (
         <ButtonLink
           key={index}
@@ -75,33 +67,28 @@ function Header() {
         />
       );
     });
-
-    //  const elColumns = externalLinksColumn.map((el, index) => {
-    //  const { slug, title } = el;
-    //  return (
-    //    <ExternalButtonLink
-    //   key={index}
-    //   label={title}
-    //    to={`${slug}`}
-    //   alignSelf="start"
-    //    fill="horizontal"
-    //   />
-    //    );
-    // });
-    const allLinks = [/* ...elColumns, */ ...glColumns];
+    const elColumns = externalLinksColumn.map((el, index) => {
+      const { slug, title } = el;
+      return (
+        <ExternalButtonLink
+          key={index}
+          label={title}
+          to={`${slug}`}
+          alignSelf="start"
+          fill="horizontal"
+        />
+      );
+    });
+    const allLinks = [...elColumns, ...glColumns];
     return allLinks;
   };
-  // const iframeRef = useRef();
-
   const PlatformButtonLinks = ({ column }) => {
     const leftColumn = platforms.filter((platform, index) => index % 2 === 0);
     const rightColumn = platforms.filter((platform, index) => index % 2);
     const platformsColumn = column === 'left' ? leftColumn : rightColumn;
-
     return platformsColumn.map((platform, index) => {
       const { slug } = platform.node.fields;
       const { title } = platform.node.frontmatter;
-
       return (
         <ButtonLink
           key={index}
@@ -113,17 +100,14 @@ function Header() {
       );
     });
   };
-
   const OpenSourceButtonLinks = ({ column }) => {
     const leftColumn = opensource.filter((os, index) => index % 2 === 0);
     const rightColumn = opensource.filter((os, index) => index % 2);
     const osColumn = column === 'left' ? leftColumn : rightColumn;
-
     return osColumn.map((os, index) => {
       const { slug } = os.node.fields;
       const s = slug.toLowerCase();
       const { title } = os.node.frontmatter;
-
       return (
         <ButtonLink
           key={index}
@@ -135,7 +119,6 @@ function Header() {
       );
     });
   };
-
   const handleHPESignIn = () => {
     let redirectURI =
       typeof window !== 'undefined'
@@ -143,7 +126,6 @@ function Header() {
         : 'https://developer.hpe.com';
     redirectURI +=
       redirectURI.charAt(redirectURI.length - 1) !== '/' ? '/' : '';
-
     console.log(
       'Sign in URL+++',
       `${GATSBY_COCKPIT_HPE_OAUTH}?redirectUri=${redirectURI}`,
@@ -153,7 +135,6 @@ function Header() {
   // const hanldeGitHubSignIn = () => {
   //   window.location.href = `${GATSBY_CLIENT_OAUTH}?scope=user&client_id=${GATSBY_CLIENT_ID}&redirect_uri=${GATSBY_REDIRECT_URI}`;
   // };
-
   useEffect(() => {
     // After requesting Github access, Github redirects back to your app with a code parameter
     const url = window.location.href;
@@ -175,8 +156,7 @@ function Header() {
         });
     }
   }, []);
-
-  // console.log('--user-- Header', userDetail);
+  console.log('--user-- Header', userDetail);
   const size = useContext(ResponsiveContext);
   const navLinks = [
     // <ButtonLink align="start" key="os" label="Open Source" to="/opensource" />,
@@ -196,7 +176,7 @@ function Header() {
         <TextAlignLeft>
           <ButtonLink
             key="pl"
-            label="HPE GreenLake edge-to-cloud platform"
+            label="HPE GreenLake Cloud Platform"
             to="/greenlake/hpe-greenlake-cloud-platform/home/"
             state={{ state: { isPlatformHeaderClicked: true } }}
             alignSelf="start"
@@ -206,9 +186,9 @@ function Header() {
             <TextAlignLeft>
               <GreenLakeButtonLinks column="left" />
             </TextAlignLeft>
-            {/*             <TextAlignLeft>
+            <TextAlignLeft>
               <GreenLakeButtonLinks column="right" />
-            </TextAlignLeft> */}
+            </TextAlignLeft>
           </Box>
         </TextAlignLeft>
       }
@@ -275,10 +255,8 @@ function Header() {
     // <ButtonLink align="start" key="yr" label="Your Role" to="/role" />,
     <ButtonLink align="start" key="ev" label="Events" to="/events" />,
     <ButtonLink align="start" key="su" label="Skill Up" to="/skillup" />,
-
     <ButtonLink align="start" key="cm" label="Community" to="/community" />,
   ];
-
   navLinks.push(
     <ButtonLink
       align="start"
@@ -288,6 +266,17 @@ function Header() {
       state={{ state: { isBlogHeaderClicked: true } }}
     />,
   );
+  if (!userDetail) {
+    navLinks.push(
+      <Button
+        align="start"
+        key="os"
+        label="SIGN IN"
+        secondary
+        onClick={handleHPESignIn}
+      />,
+    );
+  }
   if (validateHpeEmail(userDetail?.email))
   {
     navLinks.push(
@@ -336,22 +325,9 @@ function Header() {
       
       
       />,
-
     );
   }
 
-  if (!userDetail) {
-    navLinks.push(
-      <Button
-        align="start"
-        key="os"
-        label="SIGN IN"
-        secondary
-        onClick={handleHPESignIn}
-      />,
-    );
-  }
-  if (userDetail)
   if (size === 'small') {
     navLinks.push(
       <ButtonLink
@@ -363,7 +339,6 @@ function Header() {
       />,
     );
   }
-
   return (
     <GrommetHeader
       justify="between"
@@ -399,16 +374,7 @@ function Header() {
         />
       )}
       {userDetail && <UserMenu userInfo={userDetail} />}
-
-      {/* <iframe
-        title="cookie-session"
-        ref={iframeRef}
-        id="iframe"
-        src="https://origin-qa-www-hpe-com.ext.hpe.com/us/en/service-pages/hfws-cookie.html"
-        style={{ display: 'none' }}
-      /> */}
     </GrommetHeader>
   );
 }
-
 export default Header;
